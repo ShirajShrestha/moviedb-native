@@ -1,5 +1,4 @@
 import {
-  Button,
   FlatList,
   Image,
   StyleSheet,
@@ -9,20 +8,23 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fetchMovies} from '../utils/api';
+import {Movie} from '../interfaces';
 
-const HomeScreen = ({navigation}) => {
-  const [movies, setMovies] = useState([]);
-  const onPress = (id, title) =>
+const HomeScreen = ({navigation, route}: {navigation: any; route: any}) => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const category = route.params?.category || 'now_playing';
+
+  const onPress = (id: number, title: string) =>
     navigation.navigate('Info', {id: id, name: title});
-  // const onPress = id => console.log('id:', id);
 
-  const getMovies = async () => {
-    const response = await fetchMovies('now_playing');
-    setMovies(response.results);
-  };
   useEffect(() => {
+    const getMovies = async () => {
+      const response = await fetchMovies(category);
+      setMovies(response.results);
+    };
+
     getMovies();
-  }, []);
+  }, [category]);
 
   return (
     <>
@@ -47,10 +49,6 @@ const HomeScreen = ({navigation}) => {
           )}
         />
       </View>
-      {/* <Button
-        title="Go to Jane's profile"
-        onPress={() => navigation.navigate('Info', {name: 'Jane'})}
-      /> */}
     </>
   );
 };

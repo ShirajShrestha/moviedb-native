@@ -17,3 +17,14 @@ export const fetchMovieDetails = async (id: number) => {
   );
   return response.data;
 };
+
+export const fetchReviews = async (id: number) => {
+  try {
+    const response = await axios.get(
+      `${MOVIE_BASE_URL}/${id}/reviews?language=en-US&page=1&api_key=${key}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
