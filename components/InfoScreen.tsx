@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {fetchMovieDetails, fetchReviews} from '../utils/api';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import {MovieDetails, Review} from '../interfaces';
+import Star from '../assets/icons/star.svg';
+import Clock from '../assets/icons/clock-three.svg';
 
 const MAX_REVIEW_LENGTH = 150;
 
@@ -66,11 +68,13 @@ const InfoScreen = ({navigation, route}: {navigation: any; route: any}) => {
             )}
           />
           <View style={styles.row}>
-            <Icon name="clock-o" size={30} color="#f9a603" />
+            {/* <Icon name="clock-o" size={30} color="#f9a603" /> */}
+            <Clock width={30} height={30} fill="#f9a603" />
             <Text style={styles.description}>{details?.runtime} min</Text>
           </View>
           <View style={styles.row}>
-            <Icon name="star" size={30} color="#f9a603" />
+            {/* <Icon name="star" size={30} color="#f9a603" /> */}
+            <Star width={30} height={30} fill="#f9a603" />
             <Text style={styles.description}>{details?.vote_average}</Text>
           </View>
         </View>

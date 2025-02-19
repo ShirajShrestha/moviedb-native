@@ -8,6 +8,9 @@ export const fetchMovies = async (type: string, currentPage = 1) => {
   const response = await axios.get(
     `${MOVIE_BASE_URL}/${type}?language=en-US&page=${currentPage}&api_key=${key}`,
   );
+  console.log(
+    `${MOVIE_BASE_URL}/${type}?language=en-US&page=${currentPage}&api_key=${key}`,
+  );
   return response.data;
 };
 

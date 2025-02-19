@@ -3,14 +3,18 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import HomeScreen from './components/HomeScreen';
 import InfoScreen from './components/InfoScreen';
 import AboutScreen from './components/AboutScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import CustomTabBar from './components/CustomTabBar';
+// import {Dimensions} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 const CategoryHeader = () => null;
 
@@ -30,6 +34,8 @@ const renderTabBarIcon =
       />
     );
 
+const renderCustomTab = (props: any) => <CustomTabBar {...props} />;
+
 const TabBarIcon = ({
   name,
   color,
@@ -44,9 +50,43 @@ const TabBarIcon = ({
 const MyStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={MyTopTabs} />
       <Stack.Screen name="Info" component={InfoScreen} />
     </Stack.Navigator>
+  );
+};
+
+// Top tabs
+const MyTopTabs = () => {
+  return (
+    <TopTab.Navigator tabBar={renderCustomTab}>
+      <TopTab.Screen
+        name="NowPlaying"
+        component={HomeScreen}
+        initialParams={{category: 'now_playing'}}
+        options={{title: 'Now Playing'}}
+        key="now_playing"
+      />
+      <TopTab.Screen
+        name="Popular"
+        component={HomeScreen}
+        initialParams={{category: 'popular'}}
+        key="popular"
+      />
+      <TopTab.Screen
+        name="TopRated"
+        component={HomeScreen}
+        initialParams={{category: 'top_rated'}}
+        options={{title: 'Top Rated'}}
+        key="top_rated"
+      />
+      <TopTab.Screen
+        name="Upcoming"
+        component={HomeScreen}
+        initialParams={{category: 'upcoming'}}
+        key="upcoming"
+      />
+    </TopTab.Navigator>
   );
 };
 
@@ -101,7 +141,6 @@ const MyDrawer = () => {
         }}
       />
 
-      {/* Movie Categories */}
       <Drawer.Screen
         name="NowPlaying"
         component={MyStack}
