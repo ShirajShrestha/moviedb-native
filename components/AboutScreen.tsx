@@ -1,5 +1,29 @@
 import React from 'react';
-import {Text, StyleSheet, ScrollView, Linking} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  FlatList,
+  Image,
+  View,
+  Dimensions,
+} from 'react-native';
+
+const imageData = [
+  {
+    id: 1,
+    url: 'https://images.unsplash.com/photo-1539470090907-7cc242c37af5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  },
+  {
+    id: 2,
+    url: 'https://images.unsplash.com/photo-1496851925983-9c879a7038de?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  },
+  {
+    id: 3,
+    url: 'https://images.unsplash.com/photo-1505820013142-f86a3439c5b2?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  },
+];
 
 const AboutScreen = () => {
   return (
@@ -58,6 +82,20 @@ const AboutScreen = () => {
         This app was developed by Shiraj Shrestha. If you have any feedback or
         suggestions, feel free to reach out!
       </Text>
+      <View style={styles.imageContainer}>
+        <FlatList
+          data={imageData}
+          keyExtractor={item => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => (
+            <Image source={{uri: item.url}} style={styles.image} />
+          )}
+          snapToAlignment="start"
+          decelerationRate={'fast'}
+          snapToInterval={Dimensions.get('window').width - 40}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -101,5 +139,16 @@ const styles = StyleSheet.create({
     color: '#4f46e5',
     textDecorationLine: 'underline',
     marginBottom: 20,
+  },
+  imageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: Dimensions.get('window').width - 40,
+    height: 250,
+    resizeMode: 'cover',
+    borderRadius: 8,
   },
 });

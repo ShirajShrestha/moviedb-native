@@ -143,25 +143,25 @@ const MyDrawer = () => {
 
       <Drawer.Screen
         name="NowPlaying"
-        component={MyStack}
+        component={HomeScreen}
         initialParams={{category: 'now_playing'}}
         options={{title: 'Now Playing'}}
       />
       <Drawer.Screen
         name="Popular"
-        component={MyStack}
+        component={HomeScreen}
         initialParams={{category: 'popular'}}
         options={{title: 'Popular'}}
       />
       <Drawer.Screen
         name="TopRated"
-        component={MyStack}
+        component={HomeScreen}
         initialParams={{category: 'top_rated'}}
         options={{title: 'Top Rated'}}
       />
       <Drawer.Screen
         name="Upcoming"
-        component={MyStack}
+        component={HomeScreen}
         initialParams={{category: 'upcoming'}}
         options={{title: 'Upcoming'}}
       />
