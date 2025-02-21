@@ -18,8 +18,7 @@ const HomeScreen = ({navigation, route}: {navigation: any; route: any}) => {
   const [hasMore, setHasMore] = useState(true);
   const category = route.params?.category || 'now_playing';
 
-  const onPress = (id: number, title: string) =>
-    navigation.navigate('Info', {id: id, name: title});
+  const onPress = (id: number) => navigation.navigate('Info', {id});
 
   const loadMovies = async (page: number) => {
     if (isLoading || !hasMore) {
@@ -58,15 +57,6 @@ const HomeScreen = ({navigation, route}: {navigation: any; route: any}) => {
     );
   };
 
-  // useEffect(() => {
-  //   const getMovies = async () => {
-  //     const response = await fetchMovies(category);
-  //     setMovies(response.results);
-  //   };
-
-  //   getMovies();
-  // }, [category]);
-
   return (
     <FlatList
       data={movies}
@@ -75,7 +65,7 @@ const HomeScreen = ({navigation, route}: {navigation: any; route: any}) => {
       numColumns={2}
       renderItem={({item}) => (
         <View style={styles.itemContainer}>
-          <TouchableHighlight onPress={() => onPress(item.id, item.title)}>
+          <TouchableHighlight onPress={() => onPress(item.id)}>
             <Image
               style={styles.image}
               source={{

@@ -25,7 +25,7 @@ const imageData = [
   },
 ];
 
-const AboutScreen = () => {
+const AboutPage = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>About MovieDB App</Text>
@@ -99,7 +99,8 @@ const AboutScreen = () => {
     </ScrollView>
   );
 };
-export default AboutScreen;
+
+export default AboutPage;
 
 const styles = StyleSheet.create({
   container: {

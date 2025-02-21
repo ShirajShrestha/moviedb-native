@@ -11,19 +11,26 @@ import React, {useEffect, useState} from 'react';
 import {fetchMovieDetails, fetchReviews} from '../utils/api';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import {MovieDetails, Review} from '../interfaces';
-import Star from '../assets/icons/star.svg';
-import Clock from '../assets/icons/clock-three.svg';
+import Star from '../../assets/icons/star.svg';
+import Clock from '../../assets/icons/clock-three.svg';
+import Bookmark from '../../assets/icons/bookmark';
+import EmptyBookmark from '../../assets/icons/empty-bookmark';
+import {useSelector, useDispatch} from 'react-redux';
+import {addBookmark, removeBookmark} from '../stores/bookmarkSlice';
 
 const MAX_REVIEW_LENGTH = 150;
 
 const InfoScreen = ({navigation, route}: {navigation: any; route: any}) => {
+  const id = route.params.id;
+  const dispatch = useDispatch();
+
   const [details, setDetails] = useState<MovieDetails | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [expandedReviews, setExpandedReviews] = useState<{
     [key: string]: boolean;
   }>({});
-
-  const id = route.params.id;
+  const bookmarks = useSelector((state: any) => state.bookmark.bookmarks);
+  const isBookmarked = bookmarks.some(bookmark => bookmark.id === id);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -45,6 +52,16 @@ const InfoScreen = ({navigation, route}: {navigation: any; route: any}) => {
     }));
   };
 
+  const handleBookmark = () => {
+    if (isBookmarked) {
+      dispatch(removeBookmark({id}));
+    } else {
+      dispatch(
+        addBookmark({id, title: details?.title, poster: details?.poster_path}),
+      );
+    }
+  };
+
   return (
     <>
       <ScrollView>
@@ -55,7 +72,16 @@ const InfoScreen = ({navigation, route}: {navigation: any; route: any}) => {
           }}
         />
         <View style={styles.details}>
-          <Text style={styles.title}>{details?.title}</Text>
+          <View style={styles.topRow}>
+            <Text style={styles.title}>{details?.title}</Text>
+            <TouchableOpacity onPress={handleBookmark}>
+              {isBookmarked ? (
+                <Bookmark width={30} height={30} fill="#312e81" />
+              ) : (
+                <EmptyBookmark width={30} height={30} fill="#312e81" />
+              )}
+            </TouchableOpacity>
+          </View>
           <Text style={styles.detailTitle}>Description</Text>
           <Text style={styles.description}>{details?.overview}</Text>
           <FlatList
@@ -68,7 +94,6 @@ const InfoScreen = ({navigation, route}: {navigation: any; route: any}) => {
             )}
           />
           <View style={styles.row}>
-            {/* <Icon name="clock-o" size={30} color="#f9a603" /> */}
             <Clock width={30} height={30} fill="#f9a603" />
             <Text style={styles.description}>{details?.runtime} min</Text>
           </View>
@@ -145,6 +170,7 @@ const styles = StyleSheet.create({
     color: '#f9a603',
     fontWeight: 'bold',
     paddingVertical: 10,
+    width: '80%',
   },
   description: {
     fontWeight: 'normal',
@@ -162,18 +188,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: '#fff',
   },
-  // runTime: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   marginLeft: 10,
-  //   marginBottom: 5,
-  // },
-  // rating: {
-  //   fontSize: 20,
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   marginLeft: 10,
-  // },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 10,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -185,24 +205,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     color: '#f9a603',
   },
-  // reviewSection: {
-  //   padding: 10,
-  // },
-  // reviewItem: {
-  //   marginBottom: 15,
-  // },
-  // reviewAuthor: {
-  //   fontWeight: 'bold',
-  //   fontSize: 16,
-  //   padding: 5,
-  // },
-  // reviewContent: {
-  //   fontSize: 14,
-  //   marginTop: 5,
-  //   textAlign: 'justify',
-  //   marginLeft: 20,
-  //   padding: 5,
-  // },
   reviewSection: {
     padding: 15,
     marginTop: 10,

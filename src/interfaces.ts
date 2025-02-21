@@ -16,6 +16,7 @@ export interface MovieDetails {
   genres: Genre[];
   runtime: number;
   vote_average: number;
+  poster_path: string;
 }
 
 export interface Review {
@@ -31,4 +32,12 @@ export interface InfoScreenProps {
       id: number;
     };
   };
+}
+
+export interface Bookmark {
+  id: string | number;
+}
+
+export interface BookmarkState {
+  bookmarks: Bookmark[];
 }
